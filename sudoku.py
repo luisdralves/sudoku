@@ -1,4 +1,5 @@
 import numpy
+from termcolor import colored
 
 grid = [
     [4, 8, 9, 5, 0, 1, 0, 2, 0],
@@ -13,28 +14,30 @@ grid = [
 ]
 
 
-def displayGrid(grid):
-    print("╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗")
+def displayGrid(grid, fixed):
+    print(colored("╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗", 'green'))
     for y in range(len(grid)):
         line = grid[y]
-        lineToPrint = '║'
+        print(colored('║', 'green'), end='')
         for x in range(len(line)):
             number = line[x]
             if number == 0:
-                lineToPrint += '   '
+                print('   ', end='')
+            elif fixed[y][x]:
+                print(colored(' ' + str(number)[0] + ' ', 'yellow'), end='')
             else:
-                lineToPrint += ' ' + str(number)[0] + ' '
+                print(colored(' ' + str(number)[0] + ' ', 'cyan'), end='')
             if (x+1) % 3 == 0:
-                lineToPrint += '║'
+                print(colored('║', 'green'), end='')
             else:
-                lineToPrint += '│'
-        print(lineToPrint)
+                print(colored('│', 'green'), end='')
+        print()
         if y == len(grid) - 1:
-            print("╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝")
+            print(colored("╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝", 'green'))
         elif (y+1) % 3 == 0:
-            print("╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣")
+            print(colored("╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣", 'green'))
         else:
-            print("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢")
+            print(colored("╟───┼───┼───╫───┼───┼───╫───┼───┼───╢", 'green'))
 
 
 def fixed(grid):
@@ -150,10 +153,10 @@ def solve(grid):
                             grid[y][x] = number
                             break
         """
-        displayGrid(grid)
+    displayGrid(grid, fixedNumbers)
     print('solved!')
     return True
 
-
-displayGrid(grid)
+fixedNumbers = fixed(grid)
+displayGrid(grid, fixedNumbers)
 solve(grid)
