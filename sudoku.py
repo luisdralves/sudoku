@@ -1,18 +1,25 @@
 import numpy
 from termcolor import colored
+import os
 
-grid = [
-    [4, 8, 9, 5, 0, 1, 0, 2, 0],
-    [7, 5, 0, 0, 0, 0, 8, 1, 0],
-    [0, 0, 0, 0, 2, 0, 5, 9, 4],
-    [0, 0, 8, 0, 9, 0, 0, 7, 5],
-    [5, 0, 0, 0, 0, 8, 0, 0, 0],
-    [0, 0, 1, 0, 0, 3, 0, 0, 0],
-    [1, 6, 0, 3, 7, 4, 0, 8, 2],
-    [0, 0, 0, 0, 0, 5, 7, 3, 6],
-    [0, 0, 3, 0, 6, 2, 4, 5, 0]
-]
 
+def importGrid(fname):
+    grid = []
+    f = open(fname, 'r')
+    lines = f.readlines()
+    for line in lines:
+        if line[0] == '-':
+            continue
+        gridLine = []
+        for char in line:
+            if char == ' ':
+                gridLine.append(0)
+            elif char != '|' and char != '\n':
+                gridLine.append(int(char))
+        while len(gridLine) < 9:
+            gridLine.append(0)
+        grid.append(gridLine)
+    return grid
 
 def displayGrid(grid, fixed):
     print(colored("╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗", 'green'))
@@ -157,6 +164,7 @@ def solve(grid):
     print('solved!')
     return True
 
+grid = importGrid(os.sys.argv[1])
 fixedNumbers = fixed(grid)
 displayGrid(grid, fixedNumbers)
 solve(grid)
